@@ -1,0 +1,42 @@
+#root, html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  box-sizing: border-box;
+}
+main{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background:  linear-gradient(to right, #3e5151, #decba4);
+}
+.container{
+  text-align: center;
+  margin:auto;
+  max-width:60%;
+  max-height : 80%;
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px 1px #000;
+}
+.time-container{
+  margin:auto;
+  max-width: 50%;
+  padding: 2rem;
+  
+}
+.handle-time{
+  justify-content: center;
+}
+#time-left{
+  font-size: 50px;
+}
+input {
+  text-align: center;
+}
+@media (max-width: 768px){
+  .time-container{
+    border : none !important;
+  }
+}
