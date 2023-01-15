@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   const [sessiontimer, setSessiontimer] = React.useState(10);
   const [breaktimer, setBreaktimer] = React.useState(7);
-  const [displayTime, setdisplaytime] = React.useState(sessiontimer);
+  const [displayTime, setdisplaytime] = React.useState(10);
   const [timerOn, SettimerOn] = React.useState(false);
   const [onBreak, SetonBreak] = React.useState(false);
   const [breakaudio,setbreakaudio]= React.useState(new Audio('./huhuu.mp3'));
@@ -62,16 +62,17 @@ const decremenentBreak=()=>{
 const startCountdown = () => {
  
   if(!timerOn){
+    let myvar = onBreak;
     const intervalId = setInterval(() => {
       setdisplaytime((displayTime) => {
-        if(displayTime <=0 && !onBreak){ 
-          
+        if(displayTime <=0 && myvar){ 
+          myvar=true
           SetonBreak(true);
           playsound();
           return breaktimer;
         }
-        if(displayTime <=0 && onBreak){
-        
+        if(displayTime <=0 && !myvar){
+          myvar = false
           SetonBreak(false);
           playsound();
           return sessiontimer;
