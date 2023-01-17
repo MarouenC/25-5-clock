@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import './App.css';
-
 function App() {
   const [sessiontimer, setSessiontimer] = React.useState(10);
   const [breaktimer, setBreaktimer] = React.useState(7);
   const [displayTime, setdisplaytime] = React.useState(10);
   const [timerOn, SettimerOn] = React.useState(false);
   const [onBreak, SetonBreak] = React.useState(false);
-  const [breakaudio,setbreakaudio]= React.useState(new Audio('./huhuu.mp3'));
+  const [breakaudio,setbreakaudio]= React.useState(new Audio('./src/beep.mp3'));
 const playsound=()=>{
   breakaudio.currentTime = 0;
   breakaudio.play();
@@ -60,34 +59,38 @@ const decremenentBreak=()=>{
 }
 }
 const startCountdown = () => {
- 
+  let second = 1000;
+  let date = new Date().getTime();
+  let nextDate = new Date().getTime() + second;
+  let onVariableBreak = onBreak;
   if(!timerOn){
-    let myvar = onBreak;
-    const intervalId = setInterval(() => {
-      setdisplaytime((displayTime) => {
-        if(displayTime <=0 && myvar){ 
-          myvar=true
-          SetonBreak(true);
-          playsound();
-          return breaktimer;
-        }
-        if(displayTime <=0 && !myvar){
-          myvar = false
-          SetonBreak(false);
-          playsound();
-          return sessiontimer;
-        }
-        return displayTime - 1;
-      });
-    }, 1000);
+    let interval = setInterval(()=>{
+      date = new Date().getTime();
+      if (date > nextDate){
+        setdisplaytime(prev =>{
+          if (prev <=0 && !onVariableBreak){
+            onVariableBreak = true;
+            SetonBreak(true);
+            return breaktimer;
+          }
+          else if( prev <= 0 && onVariableBreak){
+            onVariableBreak = false;
+            SetonBreak(false);
+            return sessiontimer;
+          }
+          return prev-1;
+        })
+        nextDate += second;
+      }
+    },30)
     localStorage.clear();
-    localStorage.setItem("interval-id",intervalId)
-  }
+    localStorage.setItem("interval-id", interval);
+  };
   if(timerOn){
     clearInterval(localStorage.getItem("interval-id"))
   }
-  SettimerOn(!timerOn)
-};
+  SettimerOn(!timerOn);
+}
   return (
   <main>
     <div className='container' >
